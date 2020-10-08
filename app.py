@@ -40,9 +40,33 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    msg = event.message.text
+    r = '我看不懂'
+
+    if '給我貼圖' in msg:
+        sticker_message = StickerSendMessage(
+            package_id='1',
+            sticker_id='1'
+        )
+
+        line_bot_api.reply_message(
+        event.reply_token,
+        sticker_message)
+        
+        return # 用來結束funtion
+
+    if msg in ['HI', 'Hi', 'hi']:
+        r = '嗨'
+    elif msg == '你吃飯了嗎?':
+        r = '你要請嗎?'
+    elif msg == '你是誰?':
+        r = '你別管'
+    elif '定位' in msg:
+        r = '你想定位是嗎?'
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=r))
 
 # 如果地個程式是直接被執行，而不是被載入，才執行。
 if __name__ == "__main__":
